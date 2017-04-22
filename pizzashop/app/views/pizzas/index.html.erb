@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6">
+        </div>
+        <div class="col-xs-6 text-right">
+            <h1 class="cart-text"><%= render 'layouts/cart_text' %></h1>
+        </div>
+    </div>
+</div>
+
+<h1>Listing Pizza</h1>
+
+<%= form_tag pizzas_path, method: :get do %>
+<%= label_tag("Search for:") %>
+<%= text_field_tag :search, params[:search], placeholder: "Search..." %>
+<% end %>
+
+<span>Category:</span>
+<%= link_to "ALL", pizzas_path%> | <%= link_to "MEAT", pizzas_path(:category=>"MEAT") %> | 
+<%= link_to "CHICKEN", pizzas_path(:category=>"CHICKEN") %> | <%= link_to "VEGGIE", pizzas_path(:category=>"VEGGIE") %>
+
+
+<%= link_to 'Add New Pizza', new_pizza_path if current_user.admin %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Category</th>
+    <th>Availability</th>
+    <th>Image</th>
+    <th colspan="6"></th>
+  </tr>
+  <% @pizzas.each do |pizza| %>
+    <tr>
+      <td><%= pizza.name %></td>
+      <td><%= pizza.price %></td>
+      <td><%= pizza.category %></td>
+      <td><%= pizza.active %></td>
+      <td><%= image_tag(pizza.image_url(:thumb).to_s) %></td>
+      <td><%= render "pizza_row", pizza: pizza, order_item: @order_item %></td>
+      <td><%= link_to 'Show', pizza_path(pizza) %></td>
+      <td><%= link_to 'Edit', edit_pizza_path(pizza) if current_user.admin? %></td>
+      <td><%= link_to 'Destroy', pizza_path(pizza),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } if current_user.admin? %></td>
+    </tr>
+  <% end %>
+</table>

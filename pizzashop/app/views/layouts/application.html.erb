@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pizzashop</title>
+      <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+      <% if request.ssl? %>
+      <%= stylesheet_link_tag 'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' %>
+      <%= javascript_include_tag 'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js' %>
+      <% else %>
+      <%= stylesheet_link_tag 'http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' %>
+      <%= javascript_include_tag 'http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js' %>
+      <% end %>
+      <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+
+    <%= csrf_meta_tags %>
+
+  </head>
+
+  <body>
+      <header>
+          <nav class="navbar navbar-inverse"> 
+              <div class="container-fluid">
+                  <div class="navbar-header">
+                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>                        
+                      </button>
+                  </div>
+                  
+                  <div class="collapse navbar-collapse" id="myNavbar">
+                      <ul class="nav navbar-nav">
+                          
+                          <% if logged_in? %>
+                             <li><%= link_to "Product", pizzas_path %></li>
+                          <% else %>
+                             <li><%= link_to "Product", root_path %></li>
+                          <% end %>
+                          
+                          <li><a href="#">Deals</a></li>
+                          <li><a href="#">Stores</a></li>
+                          <li><a href="#">Contact</a></li>
+                      </ul>
+                      
+                      <ul class="nav navbar-nav navbar-right">
+                          <% if logged_in? %>
+                             <li><%= link_to "Profile", current_user %></li>
+                             <li><%= link_to "Log out", logout_path, method: "delete" %></li>
+                          <% else %>
+                             <li><%= link_to "Log in", login_path %></li>
+                          <% end %>
+                      </ul>
+                  </div>
+              </div>
+          </nav>
+      </header>
+      
+      <div class="container">
+          <div class="row">
+              <div class="col-xs-6"></div>
+              <div class="col-xs-6 text-right"></div>
+          </div>
+          <hr>
+          <%= yield %>
+      </div>
+
+    </body>
+</html>

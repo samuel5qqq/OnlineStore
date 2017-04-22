@@ -1,0 +1,23 @@
+<p>
+  <strong>Name:</strong>
+  <%= @pizza.name %>
+</p>
+ 
+<p>
+  <strong>Price:</strong>
+  <%= @pizza.price %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @pizza.category %>
+</p>
+
+<p>
+  <strong>Availability:</strong>
+  <%= @pizza.active %>
+</p>
+<p>
+  <%= image_tag(@pizza.image_url.to_s) %>
+</p>
+<%= link_to 'Back', pizzas_path %>

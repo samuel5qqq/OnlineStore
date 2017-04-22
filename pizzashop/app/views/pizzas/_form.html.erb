@@ -1,0 +1,45 @@
+<%= form_for @pizza do |f| %>
+ 
+  <% if @pizza.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@pizza.errors.count, "error") %> prohibited
+        this pizza from being saved:
+      </h2>
+      <ul>
+        <% @pizza.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ 
+  <p>
+    <%= f.label :Name %><br>
+    <%= f.text_field :name %>
+  </p>
+ 
+  <p>
+    <%= f.label :Price %><br>
+    <%= f.text_field :price %>
+  </p>
+
+  <p>
+    <%= f.label :Category %><br>
+    <%= f.text_field :category %>
+  </p>
+
+  <p>
+    <%= f.label :Availability %><br>
+    <%= f.select(:active, ['true','false']) %>
+  </p>
+
+  <p>
+    <%= f.label :Image %><br>
+    <%= f.file_field :image %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+ 
+<% end %>

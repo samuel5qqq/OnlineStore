@@ -1,0 +1,22 @@
+<h1>Listing Pizza</h1>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Availability</th>
+        <th>Image</th>
+        <th colspan="6"></th>
+    </tr>
+    
+    <% @pizzas.each do |pizza| %>
+       <tr>
+           <td><%= pizza.name %></td>
+           <td><%= pizza.price %></td>
+           <td><%= pizza.category %></td>
+           <td><%= pizza.active %></td>
+           <td><%= image_tag(pizza.image_url(:thumb).to_s) %></td>
+       </tr>
+     <% end %>
+</table>
