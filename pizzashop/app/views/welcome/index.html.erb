@@ -1,22 +1,17 @@
-<h1>Listing Pizza</h1>
+<h1>Pizzas OnlineStore</h1>
 
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Category</th>
-        <th>Availability</th>
-        <th>Image</th>
-        <th colspan="6"></th>
-    </tr>
-    
+<div class="row">
     <% @pizzas.each do |pizza| %>
-       <tr>
-           <td><%= pizza.name %></td>
-           <td><%= pizza.price %></td>
-           <td><%= pizza.category %></td>
-           <td><%= pizza.active %></td>
-           <td><%= image_tag(pizza.image_url(:thumb).to_s) %></td>
-       </tr>
-     <% end %>
-</table>
+    <div class="col-sm-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><%= pizza.name %></div>
+                <%= image_tag(pizza.image_url.to_s, height:"300px",width:"100%") %>
+            <div class="panel-body">
+                <%= pizza.price %>
+                <%= pizza.category %>
+                <%= pizza.active %>
+            </div>
+        </div>
+    </div>
+    <% end %>
+</div>

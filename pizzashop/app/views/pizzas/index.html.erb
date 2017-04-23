@@ -28,7 +28,8 @@
         <div class="panel panel-primary">
             <div class="panel-heading"><%= pizza.name %></div>
                 <%= image_tag(pizza.image_url.to_s, height:"300px",width:"100%") %>
-            <div class="panel-body"><%= pizza.price %>
+            <div class="panel-body">
+                <%= pizza.price %>
                 <%= pizza.category %>
                 <%= pizza.active %>
                 <%= render "pizza_row", pizza: pizza, order_item: @order_item %>
