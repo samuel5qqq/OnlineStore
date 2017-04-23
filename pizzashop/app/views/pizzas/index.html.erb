@@ -20,30 +20,26 @@
 <%= link_to "CHICKEN", pizzas_path(:category=>"CHICKEN") %> | <%= link_to "VEGGIE", pizzas_path(:category=>"VEGGIE") %>
 
 
-<%= link_to 'Add New Pizza', new_pizza_path if current_user.admin %>
+<%= link_to 'Add New Pizza', new_pizza_path if current_user.admin %><br>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Price</th>
-    <th>Category</th>
-    <th>Availability</th>
-    <th>Image</th>
-    <th colspan="6"></th>
-  </tr>
-  <% @pizzas.each do |pizza| %>
-    <tr>
-      <td><%= pizza.name %></td>
-      <td><%= pizza.price %></td>
-      <td><%= pizza.category %></td>
-      <td><%= pizza.active %></td>
-      <td><%= image_tag(pizza.image_url(:thumb).to_s) %></td>
-      <td><%= render "pizza_row", pizza: pizza, order_item: @order_item %></td>
-      <td><%= link_to 'Show', pizza_path(pizza) %></td>
-      <td><%= link_to 'Edit', edit_pizza_path(pizza) if current_user.admin? %></td>
-      <td><%= link_to 'Destroy', pizza_path(pizza),
-              method: :delete,
-              data: { confirm: 'Are you sure?' } if current_user.admin? %></td>
-    </tr>
-  <% end %>
-</table>
+<div class="row">
+    <% @pizzas.each do |pizza| %>
+    <div class="col-sm-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><%= pizza.name %></div>
+                <%= image_tag(pizza.image_url.to_s, height:"300px",width:"100%") %>
+            <div class="panel-body"><%= pizza.price %>
+                <%= pizza.category %>
+                <%= pizza.active %>
+                <%= render "pizza_row", pizza: pizza, order_item: @order_item %>
+                <%= link_to 'Show', pizza_path(pizza) %>
+                <%= link_to 'Edit', edit_pizza_path(pizza) if current_user.admin? %>
+                <%= link_to 'Destroy', pizza_path(pizza),
+                    method: :delete,
+                    data: { confirm: 'Are you sure?' } if current_user.admin? %>
+            </div>
+        </div>
+    </div>
+    <% end %>
+</div>
+
