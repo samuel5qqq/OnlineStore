@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170422160301) do
+ActiveRecord::Schema.define(version: 20170424052345) do
+
+  create_table "hists", force: :cascade do |t|
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.datetime "order_time"
+    t.integer  "pizza_id"
+    t.integer  "quantity"
+    t.decimal  "unit_price"
+    t.decimal  "total_price"
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_hists_on_user_id"
+  end
 
   create_table "order_items", force: :cascade do |t|
     t.integer  "pizza_id"
@@ -29,10 +41,8 @@ ActiveRecord::Schema.define(version: 20170422160301) do
     t.decimal  "tax",             precision: 12, scale: 3
     t.decimal  "shipping",        precision: 12, scale: 3
     t.decimal  "total",           precision: 12, scale: 3
-    t.integer  "order_status_id"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
-    t.index ["order_status_id"], name: "index_orders_on_order_status_id"
   end
 
   create_table "pizzas", force: :cascade do |t|

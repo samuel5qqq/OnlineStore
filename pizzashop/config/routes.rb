@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
  
+  
+  get '/addHistory', to: 'hists#addHistory'
 
-    
   get 'order_items/create'
 
   get 'order_items/update'

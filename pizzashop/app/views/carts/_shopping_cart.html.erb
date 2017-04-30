@@ -15,5 +15,5 @@
   <% @order_items.each do |order_item| %>
     <%= render 'carts/cart_row', pizza: order_item.pizza, order_item: order_item, show_total: true %>
   <% end %>
-  <%= link_to "Chekcout", pizzas_path %>
+<div style="font-weight:bold;"><%= link_to "Chekcout", addHistory_path %></div>
 <% end %>

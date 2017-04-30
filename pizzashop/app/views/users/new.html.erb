@@ -22,15 +22,19 @@
 
       <%= f.label :name %>
       <%= f.text_field :name, class: 'form-control' %>
+      <span id="user_nameInfo"></span>
       <br>
       <%= f.label :email %>
       <%= f.email_field :email, class: 'form-control' %>
+      <span id="user_emailInfo"></span>
       <br>
       <%= f.label :password %>
       <%= f.password_field :password, class: 'form-control' %>
+      <span id="user_passwordInfo"></span>
       <br>
       <%= f.label :password_confirmation, "Confirmation" %>
       <%= f.password_field :password_confirmation, class: 'form-control' %>
+      <span id="user_password_confirmationInfo"></span>
       <br>
       <%= f.submit "Create my account", class: "btn btn-primary" %>
     <% end %>
@@ -39,101 +43,73 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-  //validate user_name
-      var uClass = "temp1"; 
-      $("#user_name").after("<span id=\"user_name\" class=\""+uClass+"\"></span>")
-      $("input[id=user_name]").focus(function(){
-        $("span[id=user_name][class=" + uClass + "]").removeClass(uClass).addClass("info");
-        uClass="info";
-        $("span[id=user_name][class=" + uClass + "]").text("The user_name field must contain only alphabetical or numeric characters.");
-      });
+    $("#user_name").blur(function(){
+      var uname = document.getElementById("user_name").value;
+      var patt = /^[a-zA-Z0-9]+$/;
+      var result = uname.match(patt);
+      if (uname.length == 0){
+        $("#user_nameInfo").text("The username can't be empty.");
+      }else if (result == null){
+        $("#user_nameInfo").text("The field must contain only alphabetical or numeric characters.");
+      }else{
+        $.post("/checkname?name="+uname,function(data){
+          if (data){
+            $("#user_nameInfo").text("The username is existed");
+          }
+          else{
+            $("#user_nameInfo").text("");
+          }
+        });
+      }
+    });
+    
+    //validate user_email address
+    $("#user_email").blur(function(){
+      var umail = document.getElementById("user_email").value;
+      var atpos = umail.indexOf("@");
+      if (umail.length == 0){
+        $("#user_emailInfo").text("The email can't be empty.");
+      }
+      else if (atpos<0){//"@" isn't included
+        $("#user_emailInfo").text("The field should be a valid email address.");
+      }else{
+        $.post("/checkemail?email="+umail,function(data){
+          if (data){
+            $("#user_emailInfo").text("The email is existed");
+          }
+          else{
+            $("#user_emailInfo").text("");
+          }
+        });
+      }
+    });
 
-      $("#user_name").blur(function(){
-        var uname = document.getElementById("user_name").value;
-        var patt = /^[a-zA-Z0-9]+$/;
-          var result = uname.match(patt);
-        if (uname.length == 0){
-          $("span[id=user_name][class=" + uClass + "]").removeClass(uClass).addClass("temp1");
-          uClass="temp1";
-          $("span[id=user_name][class=" + uClass + "]").text("The username can't be empty.<br>");
-        }else if (result == null){
-          $("span[id=user_name][class=" + uClass + "]").removeClass(uClass).addClass("error");
-          uClass="error";
-          $("span[id=user_name][class=" + uClass + "]").text("Error");
-        }else{
-          $.post("/checkname?name="+uname,function(data){
-            if (data){
-                $("span[id=user_name][class=" + uClass + "]").text("exist");
-            }});
-        }
-            
-        });
-      
-      //validate user_password
-      var pClass = "temp2"; 
-      $("#user_password").after("<span id=\"user_password\" class=\""+pClass+"\"></span>")
-      $("input[id=user_password]").focus(function(){
-        $("span[id=user_password][class=" + pClass + "]").removeClass(pClass).addClass("info");
-        pClass="info";
-        $("span[id=user_password][class=" + pClass + "]").text("The user_password field should be at least 8 characters long.");
-      });
-      $("#user_password").blur(function(){
-        var upass = document.getElementById("user_password").value;
-        if (upass.length==0){
-          $("span[id=user_password][class=" + pClass + "]").removeClass(pClass).addClass("temp2");
-          pClass="temp2";
-          $("span[id=user_password][class=" + pClass + "]").text("The user_password can't be empty.<br>");
-        }
-        else if (upass.length<8){
-          $("span[id=user_password][class=" + pClass + "]").removeClass(pClass).addClass("error");
-          pClass="error";
-          $("span[id=user_password][class=" + pClass + "]").text("Error");
-        }else{
+    //validate user_password
+    $("#user_password").blur(function(){
+      var upass = document.getElementById("user_password").value;
+      if (upass.length==0){
+        $("#user_passwordInfo").text("The password can't be empty.");
+      }
+      else if (upass.length<8){
+        $("#user_passwordInfo").text("The field should be at least 8 characters long.");
+      }else{
+        $("#user_passwordInfo").text("");
+      }
+    });
 
-          // $("span[id=user_password][class=" + pClass + "]").removeClass(pClass).addClass("ok");
-          // pClass="ok";
-          // $("span[id=user_password][class=" + pClass + "]").text("Ok");
-        }
-        });
-      
-      //validate user_email address
-      var eClass = "temp3"; 
-      $("#user_email").after("<span id=\"user_email\" class=\""+eClass+"\"></span>")
-      $("input[id=user_email]").focus(function(){
-        $("span[id=user_email][class=" + eClass + "]").removeClass(eClass).addClass("info");
-        eClass="info";
-        $("span[id=user_email][class=" + eClass + "]").text("The user_email field should be a valid user_email address.");
-      });
-      $("#user_email").blur(function(){
-        var umail = document.getElementById("user_email").value;
-        var atpos = umail.indexOf("@");
-        if (umail.length == 0){
-          $("span[id=user_email][class=" + eClass + "]").removeClass(eClass).addClass("temp3");
-          eClass="temp3";
-          $("span[id=user_email][class=" + eClass + "]").text("The email can't be empty.<br>");
-        }
-        else if (atpos<0){//"@" isn't included
-          $("span[id=user_email][class=" + eClass + "]").removeClass(eClass).addClass("error");
-          eClass="error";
-          $("span[id=user_email][class=" + eClass + "]").text("Error");
-        }else{
-          $.post("/checkemail?email="+umail,function(data){
-            if (data){
-                $("span[id=user_email][class=" + eClass + "]").text("exist");
-            }});
-        }
-        });
-
-        //validate Confirmation
-        var cClass = "temp4"; 
-      $("#user_password_confirmation").after("<span id=\"user_password_confirmation\" class=\""+cClass+"\"></span>")
-        $("#user_password_confirmation").blur(function(){
-        var conf = document.getElementById("user_password_confirmation").value;
-        if (conf.length == 0){
-          $("span[id=user_email][class=" + cClass + "]").removeClass(cClass).addClass("temp4");
-          cClass="temp4";
-          $("span[id=user_password_confirmation][class=" + cClass + "]").text("The user_password_confirmation can't be empty.<br>");
-        }
-        });
-      });
+      //validate Confirmation
+    $("#user_password_confirmation").blur(function(){
+      var conf = document.getElementById("user_password_confirmation").value;
+      var upass = document.getElementById("user_password").value;
+      if (conf.length == 0){
+        $("#user_password_confirmationInfo").text("The field can't be empty.");
+      }
+      else if (conf != upass){
+        $("#user_password_confirmationInfo").text("The password should be the same.");
+      }
+      else{
+        $("#user_password_confirmationInfo").text("");
+      }
+    });
+  });
 </script>

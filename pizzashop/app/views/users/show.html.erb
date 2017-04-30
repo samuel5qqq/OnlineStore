@@ -1,17 +1,56 @@
 <% provide(:title, @user.name) %>
 
 <div class="container text-center">
-    <h1>Profile</h1>
+    <div style="color:Crimson;">
+        <h1>Profile</h1>
+    </div>
 </div>
 
 <div class="row">
   <aside class="col-md-4">
     <section class="user_info">
       <h1>
-        <%= gravatar_for @user %>
-        <%= @user.name %>
-        <%= @user.email %>
+        User:<%= @user.name %>
+        Email:<%= @user.email %>
       </h1>
     </section>
   </aside>
 </div>
+
+<div style="color:Crimson;"><h2>Purchase History</h2></div>
+<table>
+  <thead>
+    <tr>
+      <th> order_time </th>
+      <th> pizza_id </th>
+      <th> quantity </th>
+      <th> unit_price </th>
+      <th> total_price </th>
+      <th colspan="5"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @user.hists.each do |hist| %>
+    <tr>
+      <td>
+        <%= hist.order_time %>  
+      </td>
+      <td>
+        <%= hist.pizza_id %>  
+      </td>
+
+      <td>
+        <%= hist.quantity %>  
+      </td>
+
+      <td>
+        <%= hist.unit_price %>  
+      </td>
+
+      <td>
+        <%= hist.total_price %>  
+      </td>
+      </tr>
+    <% end %>
+  </tbody>
+ </table>

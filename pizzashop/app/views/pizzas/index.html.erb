@@ -1,23 +1,28 @@
+<div style="color:Crimson;"><h1>Menu</h1></div>
+
 <div class="container">
-    <div class="row">
-        <div class="col-xs-6">
-        </div>
-        <div class="col-xs-6 text-right">
-            <h1 class="cart-text"><%= render 'layouts/cart_text' %></h1>
+    <div style="font-weight:bold;">
+        <div class="row">
+            <div class="col-xs-6">
+            </div>
+            <div class="col-xs-6 text-right">
+                <h1 class="cart-text"><%= render 'layouts/cart_text' %></h1>
+            </div>
         </div>
     </div>
 </div>
 
-<h1>Listing Pizza</h1>
+<div style="font-weight:bold;">
+    <%= form_tag pizzas_path, method: :get do %>
+    <div style="color:Crimson;"><%= label_tag("Search for Pizza:") %></div>
+    <%= text_field_tag :search, params[:search], placeholder: "Search..." %>
+    <% end %><br>
+</div>
 
-<%= form_tag pizzas_path, method: :get do %>
-<%= label_tag("Search for:") %>
-<%= text_field_tag :search, params[:search], placeholder: "Search..." %>
-<% end %>
-
-<span>Category:</span>
-<%= link_to "ALL", pizzas_path%> | <%= link_to "MEAT", pizzas_path(:category=>"MEAT") %> | 
-<%= link_to "CHICKEN", pizzas_path(:category=>"CHICKEN") %> | <%= link_to "VEGGIE", pizzas_path(:category=>"VEGGIE") %>
+<div style="font-weight:bold;">
+    <span>Category:</span>
+    <%= link_to "ALL", pizzas_path%> | <%= link_to "MEAT", pizzas_path(:category=>"MEAT") %> | <%= link_to "CHICKEN", pizzas_path(:category=>"CHICKEN") %> | <%= link_to "VEGGIE", pizzas_path(:category=>"VEGGIE") %>
+</div>
 
 
 <%= link_to 'Add New Pizza', new_pizza_path if current_user.admin %><br>
@@ -29,9 +34,10 @@
             <div class="panel-heading"><%= pizza.name %></div>
                 <%= image_tag(pizza.image_url.to_s, height:"300px",width:"100%") %>
             <div class="panel-body">
-                <%= pizza.price %>
-                <%= pizza.category %>
-                <%= pizza.active %>
+                <div style="font-weight:bold;">
+                    Price : <%= pizza.price %> $ <br>
+                    Category : <%= pizza.category %>
+                </div>
                 <%= render "pizza_row", pizza: pizza, order_item: @order_item %>
                 <%= link_to 'Show', pizza_path(pizza) %>
                 <%= link_to 'Edit', edit_pizza_path(pizza) if current_user.admin? %>
